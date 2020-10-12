@@ -31,33 +31,11 @@
 
 class TreeNode {
   constructor(val) {
-    this.val = val
-    this.left = this.right = null
+    this.val = val;
+    this.left = this.right = null;
   }
 }
-/**
- * @param {number[]} preorder
- * @param {number[]} inorder
- * @return {TreeNode}
- */
-var buildTree = function (preorder, inorder) {
-  if (
-    preorder == null ||
-    inorder == null ||
-    preorder.length == 0 ||
-    inorder.length == 0
-  ) {
-    return null
-  }
-  return buildTreeCore(
-    preorder,
-    inorder,
-    0,
-    preorder.length - 1,
-    0,
-    inorder.length - 1
-  )
-}
+
 /**
  * @param {number[]} preorder
  * @param {number[]} inorder
@@ -67,25 +45,45 @@ var buildTree = function (preorder, inorder) {
  * @param {number} inorderEnd
  * @return {TreeNode}
  */
-var buildTreeCore = function (
-  preorder = [],
-  inorder = [],
-  preorderStart,
+var buildTree = function (preorder, inorder, preorderStart,
   preorderEnd,
   inorderStart,
-  inorderEnd
-) {
-  var rootValue = preorder[preorderStart]
-  var root = new TreeNode(rootValue)
-  var index = inorder.findIndex(item => {
-    return item == rootValue
-  })
-  root.left = buildTreeCore(
+  inorderEnd) {
+
+  if (typeof preorderStart !== "number") {
+    preorderStart = 0
+    preorderEnd = preorder.length - 1
+    inorderStart = 0
+    inorderEnd = inorder.length - 1
+  }
+
+  if (preorderStart > preorderEnd) {
+    return null
+  }
+  var rootValue = preorder[preorderStart];
+  var root = new TreeNode(rootValue);
+  var index = inorder.findIndex((item) => {
+    return item == rootValue;
+  });
+  root.left = buildTree(
     preorder,
     inorder,
     preorderStart + 1,
-    preorderStart + index - inorderStart
-  )
-  root.right = buildTreeCore(preorder, inorder)
-  return root
-}
+    preorderStart + index - inorderStart,
+    inorderStart,
+    index - 1
+  );
+  root.right = buildTree(
+    preorder,
+    inorder,
+    preorderStart + index - inorderStart + 1,
+    preorderEnd,
+    index + 1,
+    inorderEnd
+  );
+
+  return root;
+};
+
+var res = buildTree([1, 2], [2, 1])
+console.log(res);
