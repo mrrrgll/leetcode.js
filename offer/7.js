@@ -40,4 +40,52 @@ class TreeNode {
  * @param {number[]} inorder
  * @return {TreeNode}
  */
-var buildTree = function (preorder, inorder) {}
+var buildTree = function (preorder, inorder) {
+  if (
+    preorder == null ||
+    inorder == null ||
+    preorder.length == 0 ||
+    inorder.length == 0
+  ) {
+    return null
+  }
+  return buildTreeCore(
+    preorder,
+    inorder,
+    0,
+    preorder.length - 1,
+    0,
+    inorder.length - 1
+  )
+}
+/**
+ * @param {number[]} preorder
+ * @param {number[]} inorder
+ * @param {number} preorderStart
+ * @param {number} preorderEnd
+ * @param {number} inorderStart
+ * @param {number} inorderEnd
+ * @return {TreeNode}
+ */
+var buildTreeCore = function (
+  preorder = [],
+  inorder = [],
+  preorderStart,
+  preorderEnd,
+  inorderStart,
+  inorderEnd
+) {
+  var rootValue = preorder[preorderStart]
+  var root = new TreeNode(rootValue)
+  var index = inorder.findIndex(item => {
+    return item == rootValue
+  })
+  root.left = buildTreeCore(
+    preorder,
+    inorder,
+    preorderStart + 1,
+    preorderStart + index - inorderStart
+  )
+  root.right = buildTreeCore(preorder, inorder)
+  return root
+}
