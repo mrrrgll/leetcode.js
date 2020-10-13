@@ -31,8 +31,8 @@
 
 class TreeNode {
   constructor(val) {
-    this.val = val;
-    this.left = this.right = null;
+    this.val = val
+    this.left = this.right = null
   }
 }
 
@@ -45,12 +45,15 @@ class TreeNode {
  * @param {number} inorderEnd
  * @return {TreeNode}
  */
-var buildTree = function (preorder, inorder, preorderStart,
+var buildTree = function (
+  preorder,
+  inorder,
+  preorderStart,
   preorderEnd,
   inorderStart,
-  inorderEnd) {
-
-  if (typeof preorderStart !== "number") {
+  inorderEnd
+) {
+  if (typeof preorderStart !== 'number') {
     preorderStart = 0
     preorderEnd = preorder.length - 1
     inorderStart = 0
@@ -60,11 +63,11 @@ var buildTree = function (preorder, inorder, preorderStart,
   if (preorderStart > preorderEnd) {
     return null
   }
-  var rootValue = preorder[preorderStart];
-  var root = new TreeNode(rootValue);
-  var index = inorder.findIndex((item) => {
-    return item == rootValue;
-  });
+  var rootValue = preorder[preorderStart]
+  var root = new TreeNode(rootValue)
+  var index = inorder.findIndex(item => {
+    return item == rootValue
+  })
   root.left = buildTree(
     preorder,
     inorder,
@@ -72,7 +75,7 @@ var buildTree = function (preorder, inorder, preorderStart,
     preorderStart + index - inorderStart,
     inorderStart,
     index - 1
-  );
+  )
   root.right = buildTree(
     preorder,
     inorder,
@@ -80,10 +83,7 @@ var buildTree = function (preorder, inorder, preorderStart,
     preorderEnd,
     index + 1,
     inorderEnd
-  );
+  )
 
-  return root;
-};
-
-var res = buildTree([1, 2], [2, 1])
-console.log(res);
+  return root
+}
